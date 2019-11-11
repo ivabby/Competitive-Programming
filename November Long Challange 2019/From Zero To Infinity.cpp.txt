@@ -1,0 +1,127 @@
+#include<bits/stdc++.h>
+#include<set>
+#include<iterator>
+#include<algorithm>
+using namespace std;
+#define forr(a,n) for(int i=a;i<=n;i++)
+#define MAX 1000000007LL
+#define mod 998244353
+#define forn(n,a) for(int i=n;i>=a;i--)
+#define all(x) x.begin() , x.end()
+#define mp(x,y) make_pair(x,y)
+#define pb(x) push_back(x)
+#define pii pair<int,int>
+#define ll long long
+const int N = (int)1e5 + 9;
+double power(double x, ll y)  
+{  
+    double temp;  
+    if(y == 0)  
+        return 1;  
+    temp = power(x, y / 2);  
+    if (y % 2 == 0)  
+        return temp * temp;  
+    else
+    {  
+        if(y > 0)  
+            return x * temp * temp;  
+        else
+            return (temp * temp) / x;  
+    }
+}
+// double MAX = 1e7;
+int t,l;
+string s;
+int main()
+{
+    #ifndef ONLINE_JUDGE
+    freopen("in.txt" , "r" , stdin);
+    // freopen("out.txt" , "w" , stdout);
+    #endif
+    ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    cin>>t;
+    while(t--)
+    {
+        ll fa[26] = {0} , fb[26] = {0};
+        ll ca[26] = {0} , cb[26] = {0};
+        ll cnta = 0 , cntb = 0;
+        double num = 1 , den = 1;
+        cin>>l;
+        while(l--)
+        {
+            ll vowels = 0;
+            ll fq[26] = {0};
+            cin>>s;
+            int sz = s.length();
+            bool flag = true;
+            for(int i=0;i<sz;i++)
+            {
+                fq[s[i] - 'a']++;
+                ll vowel = 0 , consonant = 0;
+                if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u')
+                    vowel++;
+                else consonant++;
+                if(i+1<sz)
+                {
+                    if(s[i+1] == 'a' || s[i+1] == 'e' || s[i+1] == 'i' || s[i+1] == 'o' || s[i+1] == 'u')
+                    vowel++;
+                else consonant++;
+                }
+                if(i+2<sz)
+                {
+                    if(s[i+2] == 'a' || s[i+2] == 'e' || s[i+2] == 'i' || s[i+2] == 'o' || s[i+2] == 'u')
+                    vowel++;
+                else consonant++;
+                }
+                if(vowel < consonant && i+1!=sz)
+                    flag = false;
+            }
+            if(flag)
+            {
+                cnta++;
+                for(int i=0;i<26;i++)
+                    if(fq[i])
+                    {
+                        fa[i]+=fq[i];
+                        ca[i]++;
+                    }
+            }
+            else
+            {
+                cntb++;
+                for(int i=0;i<26;i++)
+                    if(fq[i])
+                    {
+                        fb[i]+=fq[i];
+                        cb[i]++;
+                    }
+            }
+        }
+        double alice = 1 , bob = 1 , ans = 1;
+        for(int i=0;i<26;i++)
+        {
+            if(fa[i])
+            {
+                alice = alice + log10(ca[i]);
+                bob = bob + (cnta * log10(fa[i]));
+            }
+        }
+        for(int i=0;i<26;i++)
+        {
+            if(fb[i])
+            {
+                bob = bob + log10(cb[i]);
+                alice = alice + (cntb * log10(fb[i]));
+            }
+        }
+
+         ans = (double) alice - (double) bob;
+         ans = exp(ans*log(10));
+        if(ans > 1e7)
+            printf("Infinity\n");
+        else
+            printf("%.10f\n",ans);
+    }
+    return 0;
+}
