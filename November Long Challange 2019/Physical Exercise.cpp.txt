@@ -1,0 +1,106 @@
+#include<bits/stdc++.h>
+#include<set>
+#include<iterator>
+#include<algorithm>
+using namespace std;
+#define forr(a,n) for(int i=a;i<=n;i++)
+#define MAX 1000000007LL
+#define mod 998244353
+#define forn(n,a) for(int i=n;i>=a;i--)
+#define all(x) x.begin() , x.end()
+#define mp(x,y) make_pair(x,y)
+#define pb(x) push_back(x)
+#define pii pair<int,int>
+#define ll long long
+const int N = (int)5000+ 9;
+ll power(ll x,ll y)
+{
+    ll ans = 1;
+    while(y>0)
+    {
+        if(y%2 == 1)
+            ans = ans*x;
+        x=x*x;
+        y=y>>1;
+    }
+    return ans;
+}
+double distance(double x1, double y1, double x2, double y2) 
+{ 
+    // Calculating distance 
+    return (double)sqrt((double)(x2-x1)*(x2-x1) +  
+                (double)(y2-y1)*(y2-y1)); 
+} 
+int t,n,m,k,x,y;
+pair<int,int> a[N],b[N],c[N];
+string s;
+int main()
+{
+    // #ifndef ONLINE_JUDGE
+    // freopen("in.txt" , "r" , stdin);
+    // // freopen("out.txt" , "w" , stdout);
+    // #endif
+    ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    cin>>t;
+    while(t--)
+    {
+        cin>>x>>y;
+        cin>>n>>m>>k;
+        map<pair<int,int> , double> dis_ac,dis_bc;
+        double ans,d1,d2,d3,d4,d5;
+        forr(1,n) cin>>a[i].first>>a[i].second;
+        forr(1,m) cin>>b[i].first>>b[i].second;
+        forr(1,k) cin>>c[i].first>>c[i].second;
+
+
+        d1 = distance(x,y,a[1].first , a[1].second);
+        d2 = distance(a[1].first , a[1].second , b[1].first , b[1].second);
+        d3 = distance(b[1].first , b[1].second,c[1].first,c[1].second);
+        ans = d1+d2+d3;
+        forr(1,max(n,m))
+        {
+            if(i<=n)
+                d1 = distance(a[i].first,a[i].second,c[1].first,c[1].second);
+            if(i<=m)
+                d2 = distance(b[i].first,b[i].second,c[1].first,c[1].second);
+            for(int j=2;j<=k;j++)
+            {
+                if(i<=n)
+                {
+                    double dis = distance(a[i].first,a[i].second,c[j].first,c[j].second);
+                    d1 = min(d1,dis);
+                }
+                if(i<=m)
+                {
+                    double dis = distance(b[i].first,b[i].second,c[j].first,c[j].second);
+                    d2 = min(d2,dis);
+                }
+            }
+            if(i<=n)
+                dis_ac[a[i]] = d1;
+            if(i<=m)
+                dis_bc[b[i]] = d2;
+        }
+
+        
+        for(auto i : dis_ac)
+            for(int j=1;j<=m;j++)
+            {
+                d1 = distance(x,y,b[j].first,b[j].second);
+                d2 = distance(b[j].first,b[j].second,i.first.first,i.first.second);
+                ans = min(ans , d1+d2+i.second);
+            }
+
+        for(auto i : dis_bc)
+            for(int j=1;j<=n;j++)
+            {
+                d1 = distance(x,y,a[j].first,a[j].second);
+                d2 = distance(a[j].first,a[j].second,i.first.first,i.first.second);
+                ans = min(ans,d1+d2+i.second);
+            }
+
+        printf("%.10f \n",ans);
+    }
+    return 0;
+}
