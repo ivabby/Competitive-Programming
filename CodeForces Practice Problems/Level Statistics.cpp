@@ -5,7 +5,7 @@
 using namespace std;
 #define forr(a,n) for(int i=a;i<=n;i++)
 #define MAX 1000000007LL
-#define mod 998244353
+#define mod 998244353LL
 #define forn(n,a) for(int i=n;i>=a;i--)
 #define all(x) x.begin() , x.end()
 #define mp(x,y) make_pair(x,y)
@@ -13,67 +13,12 @@ using namespace std;
 #define pii pair<int,int>
 #define ll long long
 const int N = (int)100 + 9;
-ll power(ll x,ll y)
-{
-    ll ans = 1;
-    while(y>0)
-    {
-        if(y%2 == 1)
-            ans = ans*x;
-        x=x*x;
-        y=y>>1;
-    }
-    return ans;
-}
-void solve(){
 
-    int n;
-    cin>>n;
-    vector<int> a(n),b(n);
-
-    forr(0,n-1) cin>>a[i]>>b[i];
-
-    int x = -1 , y = -1;
-    forr(0,n-1)
-    {
-        if(b[i] > a[i])
-        {
-            cout<<"NO\n";
-            return;
-        }
-        else if(a[i] < x)
-        {
-            cout<<"NO\n";
-            return;
-        }
-        else if(a[i] == x)
-        {
-            if(b[i] != y)
-            {
-                cout<<"NO\n";
-                return;
-            }
-        }
-        else
-        {
-            if(b[i] < y)
-            {
-                cout<<"NO\n";
-                return;
-            }
-            x = a[i];
-            y = b[i];
-        }
-        
-    }
-
-    cout<<"YES\n";
-}
 int main()
 {
     #ifndef ONLINE_JUDGE
     freopen("in.txt" , "r" , stdin);
-    // freopen("out.txt" , "w" , stdout);
+    freopen("out.txt" , "w" , stdout);
     #endif
     ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -81,7 +26,20 @@ int main()
     cin>>t;
     while(t--)
     {
-        solve();
+        ll p1 = 0 , p2 = 0;
+        ll n;
+        bool f = true;
+        cin>>n;
+        while(n--)
+        {
+            ll x,y;
+            cin>>x>>y;
+            if(p1>x || p2 >y || y-p2 > x-p1)
+                f = false;
+            p1 = x , p2 = y;
+        }
+        if(f) cout<<"YES\n";
+        else cout<<"NO\n";
     }
     return 0;
 }
