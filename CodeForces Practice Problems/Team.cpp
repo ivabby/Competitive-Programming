@@ -12,58 +12,53 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 #define ll long long
-const int N = (int)1e5 + 9;
+const int N = (int)100 + 9;
 ll power(ll x,ll y)
 {
-    ll ans = 1;
-    while(y>0)
-    {
-        if(y%2 == 1)
-            ans = ans*x;
-        x=x*x;
-        y=y>>1;
-    }
-    return ans;
+    if(y == 0)
+        return 1;
+    ll temp = power(x,y/2);
+    if(y%2 == 1)
+        return temp*temp*x;
+    else    
+        return temp*temp;
 }
-
 int main()
 {
     #ifndef ONLINE_JUDGE
     freopen("in.txt" , "r" , stdin);
-    // freopen("out.txt" , "w" , stdout);
+    freopen("output.txt" , "w" , stdout);
     #endif
     ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-    int n,m;
-	cin>>n>>m;
-	int minOne = n-1;
-	int maxOne = (n+1)*2;
-	if(m>=minOne && m<=maxOne)
-	{
-		if(m == n-1)
-		{
-			cout<<"0";
-			for(int i=1;i<=m;i++) cout<<"10";
-			return 0;
-		}
+    
 
-		if(m == n)
-		{
-			for(int i=1;i<=m;i++) cout<<"10";
-			return 0;
-		}
+    ll n,m;
+    cin>>n>>m;
 
-		int t = m - (n+1);
-		for(int i=0;i<n;i++)
-		{
-			if(i<t) cout<<"11";
-			else cout<<"1";
-			cout<<"0";
-		}
-		if(m == maxOne) cout<<"11";
-		else cout<<"1";
-	}
-	else
-		cout<<"-1";
+    ll minOne = n - 1;
+    ll maxOne = (n + 1)*2;
+
+    if(m>=minOne && m<=maxOne)
+    {
+        vector<int> a(n+1 , 0);
+        int j = 0;
+        for(int i=1;i<=m;i++)
+        {
+            j = (j+1)%(n+1);
+            a[j] = a[j]*10 + 1;
+        }
+
+        for(int i=0;i<=n;i++)
+        {
+            if(a[i] > 0)
+                cout<<a[i];
+            if(i != n)
+                cout<<"0";
+        }
+    }
+    else{
+        cout<<"-1";
+    }
     return 0;
 }
