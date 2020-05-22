@@ -1,3 +1,5 @@
+
+// Using Custom Sorting
 class Solution {
 public:
     
@@ -12,5 +14,31 @@ public:
                  return a>b;
              });
         return s;    
+    }
+};
+
+
+//  Using Priority Queue
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char,int> m;
+        for(char c : s)
+            m[c]++;
+        
+        string ans = "";
+        priority_queue<pair<int,char>> p;
+        for(auto i : m)
+            p.push({i.second , i.first});
+        
+        while(!p.empty())
+        {
+            auto i = p.top();
+            p.pop();
+            while(i.first--)
+                ans += i.second;
+        }
+        
+        return ans;
     }
 };
